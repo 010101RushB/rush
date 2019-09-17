@@ -2,7 +2,7 @@ import re
 import json
 import os
 
-province_zhixia = ['±±¾©', 'Ìì½ò', 'ÉÏº£', 'ÖØÇì']
+province_zhixia = ['åŒ—äº¬', 'å¤©æ´¥', 'ä¸Šæµ·', 'é‡åº†']
 
 def get_phone(can):
     ret = re.search(r'\d{11}', can)
@@ -17,47 +17,47 @@ def get_province(can):
         ret = can[0:2]
         return ret
     else:
-        if(re.search(("(.*?Ê¡)|(.*?×ÔÖÎÇø)"), can) != None):
-            ret = re.search(("(.*?Ê¡)|(.*?×ÔÖÎÇø)"), can)
+        if(re.search(("(.*?çœ)|(.*?è‡ªæ²»åŒº)"), can) != None):
+            ret = re.search(("(.*?çœ)|(.*?è‡ªæ²»åŒº)"), can)
         else:
-            if(can[0:3] == "ºÚÁú½­"):
-                return "ºÚÁú½­"
+            if(can[0:3] == "é»‘é¾™æ±Ÿ"):
+                return "é»‘é¾™æ±Ÿ"
             else:
                 return (can[0:2])
     return ret.group(0)
 
 
 def get_city(can):
-    if(re.search(".*?ÊĞ", can) != None):
-        return (re.search(".*?ÊĞ", can)).group(0)
+    if(re.search(".*?å¸‚", can) != None):
+        return (re.search(".*?å¸‚", can)).group(0)
     else:
         return ''
 
 
 def get_qu(can):
-    if(re.search(("(.*?Çø)|(.*?ÏØ)|(.*?Çø)"), can) != None):
-        return (re.search(("(.*?Çø)|(.*?ÏØ)|(.*?Çø)"), can)).group(0)
+    if(re.search(("(.*?åŒº)|(.*?å¿)|(.*?åŒº)"), can) != None):
+        return (re.search(("(.*?åŒº)|(.*?å¿)|(.*?åŒº)"), can)).group(0)
     else:
         return ''
 
 
 def get_zheng(can):
-    if(re.search(("(.*?½ÖµÀ)|(.*?Õò)|(.*?Ïç)"), can) != None):
-        return (re.search(("(.*?½ÖµÀ)|(.*?Õò)|(.*?Ïç)"), can)).group(0)
+    if(re.search(("(.*?è¡—é“)|(.*?é•‡)|(.*?ä¹¡)"), can) != None):
+        return (re.search(("(.*?è¡—é“)|(.*?é•‡)|(.*?ä¹¡)"), can)).group(0)
     else:
         return ''
 
 
 def get_lu(can):
-    if(re.search(".*?Â·", can) != None):
-        return (re.search(".*?Â·", can)).group(0)
+    if(re.search(".*?è·¯", can) != None):
+        return (re.search(".*?è·¯", can)).group(0)
     else:
         return ''
 
 
 def get_hao(can):
-    if(re.search(".*?ºÅ", can) != None):
-        return (re.search(".*?ºÅ", can)).group(0)
+    if(re.search(".*?å·", can) != None):
+        return (re.search(".*?å·", can)).group(0)
     else:
         return ''
 
@@ -66,42 +66,152 @@ flag = shuru[0]
 ans = {}
 place = []
 sp = shuru.split(',')
-ans['ĞÕÃû'] = sp[0][2:4]  # µ¼³öĞÕÃû
+ans['å§“å'] = sp[0][2:4]  # å¯¼å‡ºå§“å
 res = sp[1]
 phone = get_phone(res)
 res = res.replace(phone, '')
-ans['µç»°'] = phone
-province = get_province(res)  # µ¼³öÊ¡
+ans['ç”µè¯'] = phone
+province = get_province(res)  # å¯¼å‡ºçœ
 l = len(province)
 if(res[0:2] in province_zhixia or l >= 5):
     province_t = province
 else:
-    if(province[-1] != 'Ê¡'):
-        province_t = province + 'Ê¡'
+    if(province[-1] != 'çœ'):
+        province_t = province + 'çœ'
     else:
         province_t = province
 place.append(province_t)
 if(res[0:2] not in province_zhixia):
     res = res.replace(province, '')
-city = get_city(res)  # µ¼³öÊĞ
+city = get_city(res)  # å¯¼å‡ºå¸‚
 place.append(city)
 res = res.replace(city, '')
-qu = get_qu(res)  # µ¼³öÇø/ÏØ/ÏØ¼¶ÊĞ
+qu = get_qu(res)  # å¯¼å‡ºåŒº/å¿/å¿çº§å¸‚
 place.append(qu)
 res = res.replace(qu, '')
-zheng = get_zheng(res)  # µ¼³ö½ÖµÀ/Õò/Ïç
+zheng = get_zheng(res)  # å¯¼å‡ºè¡—é“/é•‡/ä¹¡
 place.append(zheng)
 res = res.replace(zheng, '')
 if(flag != '1'):
-    lu = get_lu(res)  # µ¼³öÂ·
+    lu = get_lu(res)  # å¯¼å‡ºè·¯
     place.append(lu)
     res = res.replace(lu, '')
-    hao = get_hao(res)  # µ¼³öÃÅÅÆºÅ
+    hao = get_hao(res)  # å¯¼å‡ºé—¨ç‰Œå·
     place.append(hao)
     res = res.replace(hao, '')
 place.append(res)
-ans['µØÖ·'] = place
+ans['åœ°å€'] = place
 # print(res)
 # print(place)
 # print(province)
 print(ans)
+import re
+import json
+import os
+
+province_zhixia = ['åŒ—äº¬', 'å¤©æ´¥', 'ä¸Šæµ·', 'é‡åº†']
+
+
+def get_phone(can):
+    ret = re.search(r'\d{11}', can)
+    if ret == None:
+        return ""
+    else:
+        return ret.group(0)
+
+
+def get_province(can):
+    if(can[0:2] in province_zhixia):
+        ret = can[0:2]
+        return ret
+    else:
+        if(re.search(("(.*?çœ)|(.*?è‡ªæ²»åŒº)"), can) != None):
+            ret = re.search(("(.*?çœ)|(.*?è‡ªæ²»åŒº)"), can)
+        else:
+            if(can[0:3] == "é»‘é¾™æ±Ÿ"):
+                return "é»‘é¾™æ±Ÿ"
+            else:
+                return (can[0:2])
+    return ret.group(0)
+
+
+def get_city(can):
+    if(re.search(".*?å¸‚", can) != None):
+        return (re.search(".*?å¸‚", can)).group(0)
+    else:
+        return ''
+
+
+def get_qu(can):
+    if(re.search(("(.*?åŒº)|(.*?å¿)|(.*?åŒº)"), can) != None):
+        return (re.search(("(.*?åŒº)|(.*?å¿)|(.*?åŒº)"), can)).group(0)
+    else:
+        return ''
+
+
+def get_zheng(can):
+    if(re.search(("(.*?è¡—é“)|(.*?é•‡)|(.*?ä¹¡)"), can) != None):
+        return (re.search(("(.*?è¡—é“)|(.*?é•‡)|(.*?ä¹¡)"), can)).group(0)
+    else:
+        return ''
+
+
+def get_lu(can):
+    if(re.search(".*?è·¯", can) != None):
+        return (re.search(".*?è·¯", can)).group(0)
+    else:
+        return ''
+
+
+def get_hao(can):
+    if(re.search(".*?å·", can) != None):
+        return (re.search(".*?å·", can)).group(0)
+    else:
+        return ''
+
+
+shuru = input()
+flag = shuru[0]
+ans = {}
+place = []
+sp = shuru.split(',')
+ans['å§“å'] = sp[0][2:4]  # å¯¼å‡ºå§“å
+res = sp[1]
+phone = get_phone(res)
+res = res.replace(phone, '')
+ans['ç”µè¯'] = phone
+province = get_province(res)  # å¯¼å‡ºçœ
+l = len(province)
+if(res[0:2] in province_zhixia or l >= 5):
+    province_t = province
+else:
+    if(province[-1] != 'çœ'):
+        province_t = province + 'çœ'
+    else:
+        province_t = province
+place.append(province_t)
+if(res[0:2] not in province_zhixia):
+    res = res.replace(province, '')
+city = get_city(res)  # å¯¼å‡ºå¸‚
+place.append(city)
+res = res.replace(city, '')
+qu = get_qu(res)  # å¯¼å‡ºåŒº/å¿/å¿çº§å¸‚
+place.append(qu)
+res = res.replace(qu, '')
+zheng = get_zheng(res)  # å¯¼å‡ºè¡—é“/é•‡/ä¹¡
+place.append(zheng)
+res = res.replace(zheng, '')
+if(flag != '1'):
+    lu = get_lu(res)  # å¯¼å‡ºè·¯
+    place.append(lu)
+    res = res.replace(lu, '')
+    hao = get_hao(res)  # å¯¼å‡ºé—¨ç‰Œå·
+    place.append(hao)
+    res = res.replace(hao, '')
+place.append(res)
+ans['åœ°å€'] = place
+# print(res)
+# print(place)
+# print(province)
+json1 = json.dumps(ans)
+print(json1)
