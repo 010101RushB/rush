@@ -60,8 +60,8 @@ def get_zheng(can):
 
 
 def get_lu(can):
-    if(re.search(".*?路", can) != None):
-        return (re.search(".*?路", can)).group(0)
+    if(re.search("(.*?[路街巷道])", can) != None):
+        return ("(.*?[路街巷道])", can)).group(0)
     else:
         return ''
 
