@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import re
 import json
 import os
