@@ -61,7 +61,7 @@ def get_zheng(can):
 
 def get_lu(can):
     if(re.search("(.*?[路街巷道])", can) != None):
-        return ("(.*?[路街巷道])", can)).group(0)
+        return (re.search("(.*?[路街巷道])", can)).group(0)
     else:
         return ''
 
@@ -78,10 +78,10 @@ flag = t[0]
 ans = {}
 place = []
 sp = t.split(',')
-ans['姓名'] = sp[0][2:4]  # 导出姓名
+ans['姓名'] = sp[0][2:]  # 导出姓名
 res = sp[1]
 phone = get_phone(res)
-res = res.replace(phone, '')
+res = res.replace(phone, '',1)
 ans['手机'] = phone
 province = get_province(res)  # 导出省
 l = len(province)
